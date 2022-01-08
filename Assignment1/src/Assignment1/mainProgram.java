@@ -1,7 +1,6 @@
 package Assignment1;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class mainProgram {
@@ -32,14 +31,15 @@ public class mainProgram {
 
             switch(choice) {
                 case 1:
-                    float [] a = createArray();
-                    t.writeFile("INPUT.TXT", a);
+                    float [] input = createArray();
+                    t.writeFile("INPUT.TXT", input);
                     break;
                 case 2:
                     t.readFile("INPUT.TXT");
                     break;
                 case 3:
-
+                    float [] b = t.readFile("INPUT.TXT");
+                    t.bubbleSort(b);
                     break;
                 case 4:
 
