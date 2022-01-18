@@ -15,7 +15,7 @@ public class Main {
 
         System.out.println("Sort by name:");
         t.insertionSort(t.getHead());
-        System.out.println(t);
+        t.printlist(t.getHead());
         System.out.println();
     }
 }

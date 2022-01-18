@@ -8,26 +8,29 @@ class MyList {
         return head;
     }
 
-    public void setHead(Node head) {
-        this.head = head;
+    public Node getSorted() {
+        return sorted;
     }
 
-    // Hàm thêm 1 người vào đuôi danh sách móc nối
+    public void setSorted(Node sorted) {
+        this.sorted = sorted;
+    }
+
+    // add a person into linked list
     public void add(Person x) {
         Node newNode = new Node(x);
         newNode.setNextNode(this.head);
         this.head = newNode;
     }
 
-    // Hàm thêm nhiều người vào danh sách móc nối, thông tin (tên và tuổi) của mọi người
-    // được lưu trong 2 mảng a và b
+    // add multiple persons into linked list
     void addMany(String [] a, int [] b) {
         for (int i = a.length - 1; i >= 0; i--) {
             add(new Person(a[i], b[i]));
         }
     }
 
-    // Hàm duyệt danh sách móc nối
+    // traverse linked list
     @Override
     public String toString () {
         StringBuilder result = new StringBuilder();
@@ -39,11 +42,6 @@ class MyList {
         }
 
         return result.toString();
-    }
-
-    // Hàm sắp xếp theo tên
-    public void sortByName() {
-
     }
 
 
@@ -62,7 +60,7 @@ class MyList {
             current = next;
         }
         // Update head_ref to point to sorted linked list
-        head = sorted;
+        this.head = sorted;
     }
 
     /*
@@ -71,19 +69,30 @@ class MyList {
      * can modify the head of the input linked list
      * (similar to push())
      */
-    void sortedInsert(Node newNode) {
+    public void sortedInsert (Node newNode) {
         /* Special case for the head end */
-        if (sorted == null || sorted.getPerson().getName().charAt(0) >= newNode.getPerson().getName().charAt(0)) {
+        if (sorted == null || sorted.getPerson().getName().compareTo(newNode.getPerson().getName()) >= 0) {
             newNode.setNextNode(sorted);
             sorted = newNode;
         } else {
             Node current = sorted;
             /* Locate the node before the point of insertion */
-            while (current.getNextNode() != null && current.getPerson().getName().charAt(0) < newNode.getPerson().getName().charAt(0)) {
+            while (current.getNextNode() != null &&
+                    current.getNextNode().getPerson().getName().compareTo(newNode.getPerson().getName()) < 0) {
                 current = current.getNextNode();
             }
             newNode.setNextNode(current.getNextNode());
             current.setNextNode(newNode);
+        }
+    }
+
+    /* Function to print linked list */
+    public void printlist(Node head)
+    {
+        while (head != null)
+        {
+            System.out.println(head);
+            head = head.getNextNode();
         }
     }
 }
