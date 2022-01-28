@@ -20,7 +20,7 @@ public class MainProgram {
 
     // method to show menu and initialize corresponding function
     public static void switchMenu() {
-
+        MyList t = new MyList();
         while (true) {
             System.out.println("\n+-------------------Menu--------------------+");
             System.out.println("|      1. Load data from file and display    |");
@@ -45,21 +45,31 @@ public class MainProgram {
 
             switch (choice) {
                 case 1 -> {
-                    MyList t = new MyList();
                     String fileName = "/Users/tiennguyen/Desktop/Funix/Java/Assignment2/INPUT.TXT";
                     t.getProductFromFile(fileName, t);
+                    System.out.printf("| %-15s| %-15s| %-15s|  %s\n", "Product Id", "Product Name", "Quantity", "Unit Price");
+                    System.out.println("-------------------------------------------------------------------");
                     System.out.println(t);
-
                 }
                 case 2 -> {
-
+                    System.out.print("Input new product Id: ");
+                    String productID = sc.next();
+                    System.out.print("Input product name: ");
+                    String productName = sc.next();
+                    System.out.print("Input product quantity: ");
+                    int productQuantity = sc.nextInt();
+                    System.out.print("Input product price: ");
+                    float productPrice = sc.nextFloat();
+                    Product p = new Product(productID, productName, productQuantity, productPrice);
+                    t.addLast(p);
                 }
                 case 3 -> {
-
+                    System.out.printf("| %-15s| %-15s| %-15s|  %s\n", "Product Id", "Product Name", "Quantity", "Unit Price");
+                    System.out.println("-------------------------------------------------------------------");
+                    System.out.println(t);
                 }
                 case 4 -> {
-
-
+                    t.writeListToFile("OUTPUT.TXT", t);
                 }
                 case 5 -> {
 

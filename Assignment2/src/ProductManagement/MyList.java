@@ -7,6 +7,7 @@ public class MyList {
 
     private Product product;
     private Node head;
+    private Node tail;
     private Node current;
     private Node sorted;
 
@@ -23,7 +24,7 @@ public class MyList {
     }
 
     // add a product into linked list
-    public void add(Product x) {
+    public void addFirst(Product x) {
         Node newNode = new Node(x);
         newNode.setNextNode(this.head);
         this.head = newNode;
@@ -47,9 +48,37 @@ public class MyList {
             int quantity = Integer.parseInt(records[2]);
             double unitPrice = Double.parseDouble(records[3]);
             Product product = new Product(productId, productName, quantity, unitPrice);
-            list.add(product);
+            list.addLast(product);
         }
     }
+
+    public void writeListToFile(String fileName, MyList list) {
+
+        File file = new File(fileName);
+        try {
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(list.toString());
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void addLast(Product product) {
+        Node newNode = new Node(product);
+
+        if (head == null) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail.setNextNode(newNode);
+            tail = newNode;
+        }
+
+    }
+
     // traverse linked list
     @Override
     public String toString () {
