@@ -22,7 +22,7 @@ public class MainProgram {
     public static void switchMenu() {
         MyList t = new MyList();
         while (true) {
-            System.out.println("\n+-------------------Menu--------------------+");
+            System.out.println("\n+-------------------Menu---------------------+");
             System.out.println("|      1. Load data from file and display    |");
             System.out.println("|      2. Input & add to the end             |");
             System.out.println("|      3. Display data                       |");
@@ -34,7 +34,7 @@ public class MainProgram {
             System.out.println("|      9. Load to stack and display          |");
             System.out.println("|     10. Load to queue and display          |");
             System.out.println("|      0. Exit                               |");
-            System.out.println("+-------------------------------------------+\n");
+            System.out.println("+--------------------------------------------+\n");
             System.out.print("Your selection (0 -> 7): ");
             int choice = sc.nextInt();
 
@@ -47,7 +47,7 @@ public class MainProgram {
                 case 1 -> {
                     String fileName = "/Users/tiennguyen/Desktop/Funix/Java/Assignment2/INPUT.TXT";
                     t.getProductFromFile(fileName, t);
-                    System.out.printf("| %-15s| %-15s| %-15s|  %s\n", "Product Id", "Product Name", "Quantity", "Unit Price");
+                    System.out.printf(" %-15s| %-15s| %-15s|  %s\n", "Product Id", "Product Name", "Quantity", "Unit Price");
                     System.out.println("-------------------------------------------------------------------");
                     System.out.println(t);
                 }
@@ -64,7 +64,7 @@ public class MainProgram {
                     t.addLast(p);
                 }
                 case 3 -> {
-                    System.out.printf("| %-15s| %-15s| %-15s|  %s\n", "Product Id", "Product Name", "Quantity", "Unit Price");
+                    System.out.printf("%-15s| %-15s| %-15s|  %s\n", "Product Id", "Product Name", "Quantity", "Unit Price");
                     System.out.println("-------------------------------------------------------------------");
                     System.out.println(t);
                 }
@@ -72,7 +72,9 @@ public class MainProgram {
                     t.writeListToFile("OUTPUT.TXT", t);
                 }
                 case 5 -> {
-
+                    System.out.print("Input product Id: ");
+                    String productID = sc.next();
+                    t.searchByID(productID);
                 }
                 case 6 -> {
 

@@ -58,12 +58,32 @@ public class MyList {
         try {
             FileWriter fw = new FileWriter(file);
             BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(list.toString());
+            String header = "Product Id, Product Name, Quantity, Unit Price\n";
+            bw.write(header);
+            bw.write(list.toString().replaceAll("((?!\n+)\\s+)", "").replace("|", ", "));
             bw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public void searchByID (String productID) {
+        Node current = this.head;
+        boolean found = false;
+        while (current != null) {
+            if (current.getProduct().getProductId().equalsIgnoreCase(productID)) {;
+                found = true; //data found
+                System.out.printf("%-15s| %-15s| %-15s|  %s\n", "Product Id", "Product Name", "Quantity", "Unit Price");
+                System.out.println("-------------------------------------------------------------------");
+                System.out.println(current.getProduct());
+                break;
+            } else {
+                current = current.getNextNode(); ;
+            };
+        }
+        if (found == false) {
+            System.out.println(-1);
+        }
     }
 
     public void addLast(Product product) {
@@ -135,8 +155,7 @@ public class MyList {
     }
 
     /* Function to print linked list */
-    public void printlist(Node head)
-    {
+    public void printlist(Node head) {
         while (head != null)
         {
             System.out.println(head);
