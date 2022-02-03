@@ -5,29 +5,30 @@ import java.util.Scanner;
 
 public class MyList {
 
-    private Product product;
     private Node head;
     private Node tail;
-    private Node current;
     private Node sorted;
 
     public Node getHead() {
         return head;
     }
 
-    public Node getSorted() {
-        return sorted;
-    }
-
-    public void setSorted(Node sorted) {
-        this.sorted = sorted;
-    }
-
     // add a product into linked list
-    public void addFirst(Product x) {
-        Node newNode = new Node(x);
+    public void addFirst(Product product) {
+        Node newNode = new Node(product);
         newNode.setNextNode(this.head);
         this.head = newNode;
+    }
+
+    public void addLast(Product product) {
+        Node newNode = new Node(product);
+
+        if (head == null) {
+            head = newNode;
+        } else {
+            tail.setNextNode(newNode);
+        }
+        tail = newNode;
     }
 
     public void getProductFromFile(String fileName, MyList list) {
@@ -71,32 +72,53 @@ public class MyList {
         Node current = this.head;
         boolean found = false;
         while (current != null) {
-            if (current.getProduct().getProductId().equalsIgnoreCase(productID)) {;
+            if (current.getProduct().getProductId().equalsIgnoreCase(productID)) {
                 found = true; //data found
                 System.out.printf("%-15s| %-15s| %-15s|  %s\n", "Product Id", "Product Name", "Quantity", "Unit Price");
                 System.out.println("-------------------------------------------------------------------");
                 System.out.println(current.getProduct());
                 break;
             } else {
-                current = current.getNextNode(); ;
-            };
+                current = current.getNextNode();
+            }
         }
-        if (found == false) {
+        if (!found) {
             System.out.println(-1);
         }
     }
 
-    public void addLast(Product product) {
-        Node newNode = new Node(product);
-
-        if (head == null) {
-            head = newNode;
-            tail = newNode;
-        } else {
-            tail.setNextNode(newNode);
-            tail = newNode;
+    public void deleteByID (String productID) {
+        Node current = this.head;
+        Node prev = null;
+        // If head node itself holds the key to be deleted
+        if (current != null && current.getProduct().getProductId().equalsIgnoreCase(productID)) {
+            head = current.getNextNode(); // Changed head
+            return;
         }
 
+        // Search for the key to be deleted, keep track of
+        // the previous node as we need to change temp.next
+        while (current != null && (!current.getProduct().getProductId().equalsIgnoreCase(productID))) {
+            prev = current;
+            current = current.getNextNode();
+        }
+
+        // If key was not present in linked list
+        if (current == null)
+            return;
+
+        // Unlink the node from linked list
+        prev.setNextNode(current.getNextNode());
+    }
+
+    public int listSize() {
+        Node current = this.head;
+        int size = 0;
+        while (current != null) {
+            size++;
+            current = current.getNextNode();
+        }
+        return size;
     }
 
     // traverse linked list
@@ -112,12 +134,29 @@ public class MyList {
         return result.toString();
     }
 
+    // function to sort a singly linked list using insertion sort recursively
+    void recursiveInsertionSort(Node node) {
+        Node current = node;
+        if (current == null) {
+            // Update head_ref to point to sorted linked list
+            this.head = sorted;
+            sorted = null;
+            this.tail = findTail();
+            return;
+        }
+        Node next = current.getNextNode();
+        // insert current in sorted linked list
+        sortedInsert(current);
+        recursiveInsertionSort(next);
+        // Update current
+        current = next;
+    }
 
-    // function to sort a singly linked list using insertion sort
-    void insertionSort(Node head) {
+    // function to sort a singly linked list using insertion sort iteratively
+    void insertionSort() {
         // Initialize sorted linked list
+        Node current = this.head;
         sorted = null;
-        Node current = head;
         // Traverse the given linked list and insert every node to sorted
         while (current != null) {
             // Store next for next iteration
@@ -131,12 +170,25 @@ public class MyList {
         this.head = sorted;
     }
 
+    // function to traverse the linked list and find the tail
+    Node findTail () {
+        Node current = head;
+        while (current.getNextNode() != null) {
+            current = current.getNextNode();
+        }
+        if (current.getNextNode() == null) {
+            tail = current;
+        }
+        return tail;
+    }
+
     /*
      * function to insert a new_node in a list. Note that
      * this function expects a pointer to head_ref as this
      * can modify the head of the input linked list
      * (similar to push())
      */
+
     public void sortedInsert (Node newNode) {
         /* Special case for the head end */
         if (sorted == null || sorted.getProduct().getProductId().compareTo(newNode.getProduct().getProductId()) >= 0) {
@@ -155,7 +207,7 @@ public class MyList {
     }
 
     /* Function to print linked list */
-    public void printlist(Node head) {
+    public void printList(Node head) {
         while (head != null)
         {
             System.out.println(head);
