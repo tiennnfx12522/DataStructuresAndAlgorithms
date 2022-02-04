@@ -13,14 +13,18 @@ public class MyList {
         return head;
     }
 
+    public void setHead(Node head) {
+        this.head = head;
+    }
+
     // add a product into linked list
-    public void addFirst(Product product) {
+    void addFirst(Product product) {
         Node newNode = new Node(product);
         newNode.setNextNode(this.head);
         this.head = newNode;
     }
 
-    public void addLast(Product product) {
+    void addLast(Product product) {
         Node newNode = new Node(product);
 
         if (head == null) {
@@ -31,8 +35,8 @@ public class MyList {
         tail = newNode;
     }
 
-    public void getProductFromFile(String fileName, MyList list) {
-
+    void getProductFromFile(String fileName, MyList list) {
+        list.setHead(null);
         File file = new File(fileName);
         Scanner sc = null;
         try {
@@ -53,22 +57,23 @@ public class MyList {
         }
     }
 
-    public void writeListToFile(String fileName, MyList list) {
+    void writeListToFile(String fileName, MyList list) {
 
         File file = new File(fileName);
         try {
             FileWriter fw = new FileWriter(file);
             BufferedWriter bw = new BufferedWriter(fw);
-            String header = "Product Id, Product Name, Quantity, Unit Price\n";
+            String header = "Id, Name, Quantity, Price\n";
             bw.write(header);
             bw.write(list.toString().replaceAll("((?!\n+)\\s+)", "").replace("|", ", "));
             bw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("Successfully!");
     }
 
-    public void searchByID (String productID) {
+    void searchByID (String productID) {
         Node current = this.head;
         boolean found = false;
         while (current != null) {
@@ -87,7 +92,7 @@ public class MyList {
         }
     }
 
-    public void deleteByID (String productID) {
+    void deleteByID (String productID) {
         Node current = this.head;
         Node prev = null;
         // If head node itself holds the key to be deleted
@@ -109,47 +114,23 @@ public class MyList {
 
         // Unlink the node from linked list
         prev.setNextNode(current.getNextNode());
-    }
-
-    public int listSize() {
-        Node current = this.head;
-        int size = 0;
-        while (current != null) {
-            size++;
-            current = current.getNextNode();
-        }
-        return size;
-    }
-
-    // traverse linked list
-    @Override
-    public String toString () {
-        StringBuilder result = new StringBuilder();
-        Node current = this.head;
-
-        while (current != null) {
-            result.append(current).append("\n");
-            current = current.getNextNode();
-        }
-        return result.toString();
+        this.tail = findTail();
+        System.out.println("Deleted!");
     }
 
     // function to sort a singly linked list using insertion sort recursively
     void recursiveInsertionSort(Node node) {
-        Node current = node;
-        if (current == null) {
+        if (node == null) {
             // Update head_ref to point to sorted linked list
             this.head = sorted;
             sorted = null;
             this.tail = findTail();
             return;
         }
-        Node next = current.getNextNode();
+        Node next = node.getNextNode();
         // insert current in sorted linked list
-        sortedInsert(current);
+        sortedInsert(node);
         recursiveInsertionSort(next);
-        // Update current
-        current = next;
     }
 
     // function to sort a singly linked list using insertion sort iteratively
@@ -170,26 +151,7 @@ public class MyList {
         this.head = sorted;
     }
 
-    // function to traverse the linked list and find the tail
-    Node findTail () {
-        Node current = head;
-        while (current.getNextNode() != null) {
-            current = current.getNextNode();
-        }
-        if (current.getNextNode() == null) {
-            tail = current;
-        }
-        return tail;
-    }
-
-    /*
-     * function to insert a new_node in a list. Note that
-     * this function expects a pointer to head_ref as this
-     * can modify the head of the input linked list
-     * (similar to push())
-     */
-
-    public void sortedInsert (Node newNode) {
+    void sortedInsert (Node newNode) {
         /* Special case for the head end */
         if (sorted == null || sorted.getProduct().getProductId().compareTo(newNode.getProduct().getProductId()) >= 0) {
             newNode.setNextNode(sorted);
@@ -206,13 +168,35 @@ public class MyList {
         }
     }
 
-    /* Function to print linked list */
-    public void printList(Node head) {
-        while (head != null)
-        {
-            System.out.println(head);
-            head = head.getNextNode();
+    // function to traverse the linked list and find the tail
+    Node findTail () {
+        Node current = head;
+        while (current.getNextNode() != null) {
+            current = current.getNextNode();
         }
+        tail = current;
+        return tail;
+    }
+
+    int convertToBinary (int decimal) {
+        if (decimal == 0) {
+            return 0;
+        }
+        else {
+            return (decimal % 2 + 10 * convertToBinary(decimal / 2));
+        }
+    }
+
+    @Override
+    public String toString () {
+        StringBuilder result = new StringBuilder();
+        Node current = this.head;
+
+        while (current != null) {
+            result.append(current).append("\n");
+            current = current.getNextNode();
+        }
+        return result.toString();
     }
 
 }

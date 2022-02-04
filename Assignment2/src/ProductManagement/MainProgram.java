@@ -11,7 +11,9 @@ import java.util.Scanner;
 public class MainProgram {
     // create object Scanner
     public static final Scanner sc = new Scanner(System.in);
-    public static MyList t = new MyList();
+    public static MyList l = new MyList();
+    public static MyStack s = new MyStack();
+    public static MyQueue q = new MyQueue();
 
     // main method to run program
     public static void main(String[] args) {
@@ -50,10 +52,10 @@ public class MainProgram {
                 switch (choice) {
                     case 1:
                         String fileName = "/Users/tiennguyen/Desktop/Funix/Java/Assignment2/INPUT.TXT";
-                        t.getProductFromFile(fileName, t);
+                        l.getProductFromFile(fileName, l);
                         System.out.printf("%-15s| %-15s| %-15s|  %s\n", "Product Id", "Product Name", "Quantity", "Unit Price");
                         System.out.println("-------------------------------------------------------------------");
-                        System.out.println(t);
+                        System.out.println(l);
                         break;
                     case 2:
                         System.out.print("Input new product Id: ");
@@ -65,42 +67,52 @@ public class MainProgram {
                         System.out.print("Input product price: ");
                         float productPrice = sc.nextFloat();
                         Product p = new Product(productID, productName, productQuantity, productPrice);
-                        t.addLast(p);
+                        l.addLast(p);
                         break;
                     case 3:
                         System.out.printf("%-15s| %-15s| %-15s|  %s\n", "Product Id", "Product Name", "Quantity", "Unit Price");
                         System.out.println("-------------------------------------------------------------------");
-                        System.out.println(t);
+                        System.out.println(l);
                         break;
                     case 4:
-                        t.writeListToFile("OUTPUT.TXT", t);
+                        l.writeListToFile("INPUT.TXT", l);
                         break;
                     case 5:
                         System.out.print("Input product Id: ");
                         productID = sc.next();
-                        t.searchByID(productID);
+                        l.searchByID(productID);
                         break;
                     case 6:
                         System.out.print("Input product Id: ");
                         productID = sc.next();
-                        t.deleteByID(productID);
+                        l.deleteByID(productID);
                         break;
                     case 7:
-                        t.recursiveInsertionSort(t.getHead());
+                        l.recursiveInsertionSort(l.getHead());
                         System.out.printf("%-15s| %-15s| %-15s|  %s\n", "Product Id", "Product Name", "Quantity", "Unit Price");
                         System.out.println("-------------------------------------------------------------------");
-                        System.out.println(t);
+                        System.out.println(l);
                         break;
-
                     case 8:
-
+                        int decimal = l.getHead().getProduct().getQuantity();
+                        System.out.println("Quantity of first product in decimal: " + decimal);
+                        int binary = l.convertToBinary(decimal);
+                        System.out.println("Quantity of first product in binary: " + binary);
                         break;
-
                     case 9:
+                        fileName = "/Users/tiennguyen/Desktop/Funix/Java/Assignment2/INPUT.TXT";
+                        s.getProductFromFile(fileName, s);
+                        System.out.printf("%-15s| %-15s| %-15s|  %s\n", "Product Id", "Product Name", "Quantity", "Unit Price");
+                        System.out.println("-------------------------------------------------------------------");
+                        System.out.println(s);
                         break;
                     case 10:
+                        fileName = "/Users/tiennguyen/Desktop/Funix/Java/Assignment2/INPUT.TXT";
+                        q.getProductFromFile(fileName, q);
+                        System.out.printf("%-15s| %-15s| %-15s|  %s\n", "Product Id", "Product Name", "Quantity", "Unit Price");
+                        System.out.println("-------------------------------------------------------------------");
+                        System.out.println(q);
                         break;
-
                     case 11:
                         System.out.println("Good bye, have a nice day!");
                         break;
