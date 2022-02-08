@@ -336,8 +336,8 @@ public class MyList {
             result.append(current).append("\n");
             current = current.getNextNode();
         }
-        
+
+        // return the result string
         return result.toString();
     }
-
 }
